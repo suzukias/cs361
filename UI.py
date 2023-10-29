@@ -30,7 +30,8 @@ def get_registered_users():
     registered_users = []
     with open("users.txt", "r") as file:
         for line in file:
-            registered_users.append(line.strip())
+            username, _ = line.strip().split(',', 1)
+            registered_users.append(username)
     return registered_users
 
 
