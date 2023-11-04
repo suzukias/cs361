@@ -1,6 +1,3 @@
-USER_LISTS = "users.txt"
-
-
 def welcome_message():
     print("\nWelcome to your Expense Tracker! \nThis is your personal expense management service. You can easily track and manage your expenses.")
 
@@ -20,6 +17,20 @@ def login_or_signup():
             login_help()
         else:
             print("Please select correct number.")
+
+
+def login_help():
+    print("\nLogin Help\nLogin is required to use this service.\nYour username can consist of numbers, letters, or a combination of both.\nYour password must be 6 characters long and at least 1 number.\nIf you have already registered, please go to login page and enter your username and password to use the service\nIf you don't have username and password, please go to register page to register.")
+    selection = input(
+        "\nPlease Register or Login by making a selection and pressing Enter.\n0 - Exit\n1 - Registration\n2 - Login\nSelection: ")
+    if selection == "0":
+        exit()
+    elif selection == "1":
+        registration()
+    elif selection == "2":
+        login()
+    else:
+        print("Please select correct number.")
 
 
 def get_registered_users():
@@ -156,10 +167,6 @@ def is_float(value):
 
 
 def view_expense():
-    print("work in progress")
-
-
-def login_help():
     print("work in progress")
 
 
