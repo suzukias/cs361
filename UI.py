@@ -8,7 +8,7 @@ def welcome_message():
 def login_or_signup():
     while True:
         selection = input(
-            "\nPlease Register or Login by making a selection and pressing Enter.\n0 - Exit\n1 - Registration\n2 - Login\n3 - Help\nSelection: ")
+            "\nPlease Register or Login by making a selection and pressing Enter.\n0 - Exit\n1 - Registration\n2 - Login\n3 - Login Help\nSelection: ")
         if selection == "0":
             exit()
         elif selection == "1":
@@ -17,7 +17,7 @@ def login_or_signup():
             login()
             return
         elif selection == "3":
-            print("help page")
+            login_help()
         else:
             print("Please select correct number.")
 
@@ -90,7 +90,7 @@ def login():
                     if username == stored_username and password == stored_password:
                         print("Login successful!")
                         password_matched = True
-                        top_page()
+                        home()
                         break
             if not password_matched:
                 print(
@@ -112,7 +112,58 @@ def login():
             login_or_signup()
 
 
-def top_page():
+def home():
+    print("\nHome\nPlease Register or Login by making a selection and pressing Enter.\n0 - Exit\n1 - View Your Expense\n2 - Enter Your Expense Log\n3 - Help")
+    selection = input("Your selection: ")
+    if selection == "0":
+        exit()
+    elif selection == "1":
+        view_expense()
+    elif selection == "2":
+        enter_expense()
+    elif selection == "3":
+        service_help()
+    else:
+        print("Invalid input. Please select the correct number.")
+
+
+def enter_expense():
+    while True:
+        print("\nEnter Your Expense Log\nPlease complete the following to log your expense or enter 0 to go back Home.\n0 - Back to Home")
+        expense = input("Please input how much money did you spend: ")
+        if expense == "0":
+            home()
+            break
+        else:
+            if not is_float(expense):
+                print("Invalid input. Please enter a valid expense amount.")
+            else:
+                date = input("Date (YYYY-MM-DD): ")
+                description = input("Description: ")
+                with open("expenses.txt", "a") as file:
+                    file.write(f"{date},{expense},{description}\n")
+                print("Expense logged successfully!")
+                home()
+                break
+
+
+def is_float(value):
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
+
+
+def view_expense():
+    print("work in progress")
+
+
+def login_help():
+    print("work in progress")
+
+
+def service_help():
     print("work in progress")
 
 
