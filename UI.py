@@ -1,3 +1,7 @@
+import requests
+import json
+
+
 def welcome_message():
     print("\nWelcome to your Expense Tracker! \nThis is your personal expense management service. You can easily track and manage your expenses.")
 
@@ -124,7 +128,7 @@ def login():
 
 
 def home():
-    print("\nHome\nPlease Register or Login by making a selection and pressing Enter.\n0 - Exit\n1 - View Your Expense\n2 - Enter Your Expense Log\n3 - Help")
+    print("\nHome\nPlease make a selection and press Enter.\n0 - Exit\n1 - View Your Expense\n2 - Enter Your Expense Log\n3 - Help")
     selection = input("Your selection: ")
     if selection == "0":
         exit()
@@ -141,7 +145,7 @@ def home():
 def enter_expense():
     while True:
         print("\nEnter Your Expense Log\nPlease complete the following to log your expense or enter 0 to go back Home.\n0 - Back to Home")
-        expense = input("Please input how much money did you spend: ")
+        expense = input("Please input how much money did you spend: $")
         if expense == "0":
             home()
             break
@@ -167,7 +171,47 @@ def is_float(value):
 
 
 def view_expense():
-    print("work in progress")
+    prices = read_expense_file()
+    data = {"data": prices}
+    url = 'http://localhost:3000/calculate'
+
+    # Making a POST request
+    response = requests.post(url, json=data)
+    result = response.json()
+    print(f"\nYour Total Expense: ${result['total']}")
+    print(f"Your Average Expense: ${result['avg']}")
+    print(f"Most Expensive Expense: ${result['max']}")
+    print(f"Cheapest Expense: ${result['min']}")
+
+    while True:
+        selection = input(
+            "\nWould you like to see all the expense history?\n0 - No (Back to Top)\n1 - Yes\nSelection: ")
+        if selection == "0":
+            home()
+        elif selection == "1":
+            with open("expenses.txt", "r") as file:
+                for line in file:
+                    parts = line.strip().split(',')
+                    date = parts[0]
+                    price = parts[1]
+                    price = float(price)
+                    details = parts[2]
+                    print(f"Date: {date} Amount: {price} Details: {details}")
+                home()
+                break
+        else:
+            print("Invalid input. Please select the correct number.")
+
+
+def read_expense_file():
+    prices = []
+    with open("expenses.txt", "r") as file:
+        for line in file:
+            parts = line.strip().split(',')
+            price = parts[1]
+            price = float(price)
+            prices.append(price)
+    return prices
 
 
 def service_help():
